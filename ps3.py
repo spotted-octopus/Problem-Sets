@@ -66,6 +66,9 @@ def get_frequency_dict(sequence):
 #
 # Problem #1: Scoring a word
 #
+
+
+
 def get_word_score(word, n):
     """
     Returns the score for a word. Assumes the word is a
@@ -91,8 +94,22 @@ def get_word_score(word, n):
     n: int >= 0
     returns: int >= 0
     """
-    
-    pass  # TO DO... Remove this line when you implement this function
+
+    str_word = list(word.lower())
+    word_score = 0 
+
+    for item in str_word: 
+        scrabble_score = SCRABBLE_LETTER_VALUES.get(item)
+        word_score += scrabble_score
+
+    hand_score = (7 * len(word) - 3 * (n - len(word)))
+
+    if hand_score < 1: 
+        hand_score = 1
+
+    total_score = word_score * hand_score 
+
+    return(total_score) 
 
 #
 # Make sure you understand how this function works and what it does!
@@ -167,8 +184,24 @@ def update_hand(hand, word):
     hand: dictionary (string -> int)    
     returns: dictionary (string -> int)
     """
+    
+    hand_copy = hand.copy()  
+    str_word = list(word.lower())
 
-    pass  # TO DO... Remove this line when you implement this function
+    for char in str_word:
+        if hand_copy.get(char,0) == 1: 
+            hand_copy.pop(char) 
+        elif hand_copy.get(char,0) > 1: 
+            hand_copy[char] = hand_copy.get(char,0) - 1
+
+    return hand_copy
+
+hand = {'j':2, 'o':1, 'l':1, 'w':1, 'n':2}
+hand = update_hand(hand, "jolly")
+display_hand(hand)
+
+
+    # pass  # TO DO... Remove this line when you implement this function
 
 #
 # Problem #3: Test word validity
